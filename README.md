@@ -143,4 +143,4 @@ L'application `owasp.mstg.uncrackable1` ne détecte plus l'environnement rooté 
 
 **Auteur:** bachirsoukaina  
 **Date:** 2026-05-20  
-**Dernier Commit:** cdec9e604dd532e4d9e66ada0c31be375ebfd021
+
