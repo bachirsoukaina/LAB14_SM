@@ -274,39 +274,7 @@ Objectif: Bypass root detection
 | 4️⃣ | **RootBeer.isRooted()** | `com.scottyab.rootbeer.RootBeer` | isRooted() | Retourne toujours `false` | ✅ Fallback |
 | 5️⃣ | **Objection Job** | Frida (interne) | Job 945809 | Désactive globalement la détection root | ✅ Actif |
 
-### Diagramme d'Architecture
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│        Application: owasp.mstg.uncrackable1                 │
-│                                                             │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │   Code Applicatif (Root Detection Checks)          │   │
-│  │   ├─ Vérif Build.TAGS == "test-keys" ?             │   │
-│  │   ├─ Vérif File.exists("/system/bin/su") ?         │   │
-│  │   ├─ Vérif Runtime.exec("which su") ?              │   │
-│  │   └─ RootBeer.isRooted() ?                          │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                          ↓                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │   Hooks Frida (Intercepts les appels Java)         │   │
-│  │   ├─ Build.TAGS.value = "release-keys"            │   │
-│  │   ├─ File.exists() → return false                 │   │
-│  │   ├─ Runtime.exec() → throw Exception              │   │
-│  │   └─ RootBeer.isRooted() → return false           │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                          ↓                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │   Résultat: Toutes les vérifs retournent "OK"      │   │
-│  │   ✅ Application pense qu'elle est en environnement│   │
-│  │      non-rooté (Clean/Release)                     │   │
-│  └─────────────────────────────────────────────────────┘   │
-│                          ↓                                  │
-│  ┌─────────────────────────────────────────────────────┐   │
-│  │   🔓 Application Déverrouillée                      │   │
-│  │   Accès complet aux fonctionnalités sensibles       │   │
-│  └─────────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Flux d'Exécution Détaillé
